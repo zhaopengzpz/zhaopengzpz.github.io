@@ -35,7 +35,7 @@
 
     <!-- custom head -->
     
-
+<link rel="stylesheet" type="text/css" href="assets/waifu.min.css?v=1.4.2">
 </head>
 
 <body>
@@ -388,9 +388,136 @@ var BLOG = { ROOT: '/', SHARE: true, REWARD: false };
 
 
 
-   
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
-    <script src="/live2d-widget/autoload.js"></script>
+     <script src="assets/jquery.min.js?v=3.3.1"></script>
+    
+    <!-- ʵ���϶�Ч���������� JQuery UI -->
+    <script src="assets/jquery-ui.min.js?v=1.12.1"></script>
+    <div class="waifu">
+        <div class="waifu-tips"></div>
+        <canvas id="live2d" class="live2d"></canvas>
+        <div class="waifu-tool">
+            <span class="fui-home"></span>
+            <span class="fui-chat"></span>
+            <span class="fui-eye"></span>
+            <span class="fui-user"></span>
+            <span class="fui-photo"></span>
+            <span class="fui-info-circle"></span>
+            <span class="fui-cross"></span>
+        </div>
+    </div>
+        
+    <script src="assets/waifu-tips.min.js?v=1.4.2"></script>
+    <script src="assets/live2d.min.js?v=1.0.5"></script>
+    <script type="text/javascript">
+        /* ��ֱ���޸Ĳ��ֲ��� */
+
+
+    live2d_settings['modelRandMode']        = 'switch';     // ģ���л�����ѡ 'rand'(���), 'switch'(˳��)
+    live2d_settings['modelTexturesRandMode']= 'rand';       // �����л�����ѡ 'rand'(���), 'switch'(˳��)
+    live2d_settings['waifuEdgeSide'] = 'right:30';
+    live2d_settings['waifuDraggable'] = 'axis-x';
+    initModel({
+        "waifu": {
+            "console_open_msg": ["����������˿���̨������Ҫ�����ҵ�������"],
+            "copy_message": ["�㶼������Щʲôѽ��ת��Ҫ�ǵü��ϳ���Ŷ"],
+            "screenshot_message": ["�պ�����ǲ��Ǻܿɰ��أ�"],
+            "hidden_message": ["���ǻ����ټ���İɡ�"],
+            "load_rand_textures": ["�һ�û�������·���", "�ҵ����·��ÿ���"],
+            "hour_tips": {
+                "t5-7": ["���Ϻã�һ��֮�����ڳ������õ�һ���Ҫ��ʼ��"],
+                "t7-11": ["����ã�����˳�����Ҫ�������������߶��߶�Ŷ��"],
+                "t11-14": ["�����ˣ�������һ�����磬���������ʱ�䣡"],
+                "t14-17": ["�������׷����أ�������˶�Ŀ���������"],
+                "t17-19": ["�����ˣ�����Ϧ���ľ�ɫ�������أ���������Ϧ����~"],
+                "t19-21": ["���Ϻã����������ô����"],
+                "t21-23": ["�Ѿ���ô����ѽ�������Ϣ�ɣ�����~"],
+                "t23-5": ["����ҹè��ѽ����ô������˯���������������"],
+                "default": ["��~ ����������ɣ�"]
+            },
+            "referrer_message": {
+                "localhost": ["��ã���ӭ�Ķ�"],
+                "baidu": ["Hello! ���� �ٶ����� ������<br>�������� <span style=\"color:#0099cc;\">", "</span> �ҵ�������"],
+                "so": ["Hello! ���� 360���� ������<br>�������� <span style=\"color:#0099cc;\">", "</span> �ҵ�������"],
+                "google": ["Hello! ���� �ȸ����� ������<br>��ӭ�Ķ�<span style=\"color:#0099cc;\">��", "��</span>", " - "],
+                "default": ["Hello! ���� <span style=\"color:#0099cc;\">", "</span> ������"],
+                "none": ["��ã���ӭ�Ķ�<span style=\"color:#0099cc;\">��", "��</span>", " - "]
+            },
+            "referrer_hostname": {
+                "example.com": ["ʾ����վ"],
+                "www.fghrsh.net": ["FGHRSH �Ĳ���"]
+            },
+            "model_message": {
+                "1": ["���� Potion Maker �� Pio �� ~"],
+                "2": ["���� Potion Maker �� Tia �� ~"]
+            },
+            "hitokoto_api_message": {
+                "lwl12.com": ["���һ������ <span style=\"color:#0099cc;\">��{source}��</span>", "���� <span style=\"color:#0099cc;\">{creator}</span> Ͷ���", "��"],
+                "fghrsh.net": ["���һ�Գ����� <span style=\"color:#0099cc;\">��{source}��</span>���� <span style=\"color:#0099cc;\">FGHRSH</span> �� {date} �ղصģ�"],
+                "jinrishici.com": ["���ʫ�ʳ��� <span style=\"color:#0099cc;\">��{title}��</span>���� {dynasty}ʫ�� {author} �����ģ�"],
+                "hitokoto.cn": ["���һ������ <span style=\"color:#0099cc;\">��{source}��</span>���� <span style=\"color:#0099cc;\">{creator}</span> �� hitokoto.cn Ͷ��ġ�"]
+            }
+        },
+        "mouseover": [
+            { "selector": ".container a[href^='http']", "text": ["��ã�Ҫ���� <span style=\"color:#0099cc;\">{text}</span> ô��"] },
+            { "selector": ".fui-home", "text": ["���ǰ����ҳ����ص���һҳ����ʹ��������ĺ��˹���Ŷ"] },
+            { "selector": ".fui-chat", "text": ["һ��һ�һ�һЦ��һ��һ�䣬һ����ͧ��"] },
+            { "selector": ".fui-eye", "text": ["�š����� Ҫ�л� ������ ��"] },
+            { "selector": ".fui-user", "text": ["ϲ����װ Play ��"] },
+            { "selector": ".fui-photo", "text": ["Ҫ���ż�����Ƭ��"] },
+            { "selector": ".fui-info-circle", "text": ["�����й����ҵ���Ϣ��"] },
+            { "selector": ".fui-cross", "text": ["�㲻ϲ��������..."] },
+            { "selector": "#tor_show", "text": ["��ҳ�Ƚ��鷳�𣬵��������ʾ��ƪ���µ�Ŀ¼��"] },
+            { "selector": "#comment_go", "text": ["��Ҫȥ����Щʲô��"] },
+            { "selector": "#night_mode", "text": ["��ҹʱҪ�����۾�ѽ"] },
+            { "selector": "#qrcode", "text": ["�ֻ�ɨһ�¾��ܼ��������ܷ�����"] },
+            { "selector": ".comment_reply", "text": ["Ҫ�²�Щʲô��"] },
+            { "selector": "#back-to-top", "text": ["�ص���ʼ�ĵط���"] },
+            { "selector": "#author", "text": ["����ô�ƺ�����"] },
+            { "selector": "#mail", "text": ["����������䣬��Ȼ������ͷ����ʿ��"] },
+            { "selector": "#url", "text": ["��ļ��������أ�������ȥ�ι۲ι�"] },
+            { "selector": "#textarea", "text": ["������дŶ�����������ǽ�ֹ����"] },
+            { "selector": ".OwO-logo", "text": ["Ҫ����һ��������"] },
+            { "selector": "#csubmit", "text": ["Ҫ[�ύ]^(Commit)�����״�������Ҫ��ˣ������ĵȴ�~"] },
+            { "selector": ".ImageBox", "text": ["���ͼƬ���ԷŴ���"] },
+            { "selector": "input[name=s]", "text": ["�Ҳ����뿴�����ݣ�����������"] },
+            { "selector": ".previous", "text": ["ȥ��һҳ������"] },
+            { "selector": ".next", "text": ["ȥ��һҳ������"] },
+            { "selector": ".dropdown-toggle", "text": ["�����ǲ˵�"] },
+            { "selector": "c-player a.play-icon", "text": ["��Ҫ����������"] },
+            { "selector": "c-player div.time", "text": ["��������Ե���<span style=\"color:#0099cc;\">���Ž���</span>��"] },
+            { "selector": "c-player div.volume", "text": ["��������Ե���<span style=\"color:#0099cc;\">����</span>��"] },
+            { "selector": "c-player div.list-button", "text": ["<span style=\"color:#0099cc;\">�����б�</span>�ﶼ��ʲô��"] },
+            { "selector": "c-player div.lyric-button", "text": ["��<span style=\"color:#0099cc;\">���</span>�Ļ����ܸ���һ����"] },
+            { "selector": ".waifu #live2d", "text": ["�������㣬������ÿ�", "�����Ŵ��ط��ˣ�"] }
+        ],
+        "click": [
+            {
+                "selector": ".waifu #live2d",
+                "text": [
+                    "�ǡ��ǲ�С�������˰�",
+                    "�������ʲôѽ",
+                    "�㿴���ҵ�С������",
+                    "�����Ļ��ҿ�Ҫ�����ˣ�?��n��?",
+                    "110�������и���̬һֱ������(���n��?)",
+                    "��Ҫ����........"
+                ]
+            }
+        ],
+        "seasons": [
+            { "date": "01/01", "text": ["<span style=\"color:#0099cc;\">Ԫ��</span>���أ��µ�һ���ֿ�ʼ�ˣ�������{year}��~"] },
+            { "date": "02/14", "text": ["����һ��<span style=\"color:#0099cc;\">���˽�</span>��{year}���ҵ���������~"] },
+            { "date": "03/08", "text": ["������<span style=\"color:#0099cc;\">��Ů��</span>��"] },
+            { "date": "03/12", "text": ["������<span style=\"color:#0099cc;\">ֲ����</span>��Ҫ��������ѽ"] },
+            { "date": "04/01", "text": ["���ĸ�����һ������~<span style=\"background-color:#34495e;\">���������˽ڣ���Ҫ��ƭ��Ŷ~</span>"] },
+            { "date": "05/01", "text": ["������<span style=\"color:#0099cc;\">��һ�Ͷ���</span>���ƻ��ü���ȥ��������~"] },
+            { "date": "06/01", "text": ["<span style=\"color:#0099cc;\">��ͯ��</span>���أ�����ʱ�����Ƕ��ݣ�Ҫ����Զ������ö�ð���"] },
+            { "date": "09/03", "text": ["<span style=\"color:#0099cc;\">�й�������ս��ʤ��������</span>��������ʷ���廳���ҡ��䰮��ƽ������δ����"] },
+            { "date": "09/10", "text": ["<span style=\"color:#0099cc;\">��ʦ��</span>����ѧУҪ����ʦ������ѽ~"] },
+            { "date": "10/01", "text": ["<span style=\"color:#0099cc;\">�����</span>�����й��Ѿ�����69������"] },
+            { "date": "11/05-11/12", "text": ["�����<span style=\"color:#0099cc;\">˫ʮһ</span>�Ǻ�˭һ�������~"] },
+            { "date": "12/20-12/31", "text": ["�⼸����<span style=\"color:#0099cc;\">ʥ����</span>�����˿϶���ȥ������������~"] }
+        ]
+    });
+    </script>
 </body>
 </html>
